@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { BlogPost } from '../types/blog';
 import BlogDialog from './BlogDialog';
 import { Calendar, User, ArrowRight } from 'lucide-react';
@@ -10,78 +10,26 @@ interface BlogCardProps {
 
 const BlogCard: React.FC<BlogCardProps> = ({ blog, index = 0 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const hoverTimeoutRef = useRef<number | null>(null);
-  const leaveTimeoutRef = useRef<number | null>(null);
 
   const handleMouseEnter = () => {
-    // Clear any existing leave timeout
-    if (leaveTimeoutRef.current) {
-      clearTimeout(leaveTimeoutRef.current);
-      leaveTimeoutRef.current = null;
-    }
-    
-    // Set hover state with a small delay to prevent accidental triggers
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-    }
-    
-    hoverTimeoutRef.current = window.setTimeout(() => {
-      setIsHovered(true);
-    }, 300); // 300ms delay before opening
+    setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-    // Clear any existing hover timeout
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-      hoverTimeoutRef.current = null;
-    }
-    
-    // Set leave timeout with longer delay
-    leaveTimeoutRef.current = window.setTimeout(() => {
-      setIsHovered(false);
-    }, 500); // 500ms delay before closing
-  };
-
-  const handleDialogMouseEnter = () => {
-    // Clear leave timeout when mouse enters dialog
-    if (leaveTimeoutRef.current) {
-      clearTimeout(leaveTimeoutRef.current);
-      leaveTimeoutRef.current = null;
-    }
-  };
-
-  const handleDialogMouseLeave = () => {
-    // Close dialog when mouse leaves dialog area
-    leaveTimeoutRef.current = window.setTimeout(() => {
-      setIsHovered(false);
-    }, 300); // Shorter delay when leaving dialog
-  };
-
-  const handleDialogClose = () => {
-    // Clear all timeouts and close immediately
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-      hoverTimeoutRef.current = null;
-    }
-    if (leaveTimeoutRef.current) {
-      clearTimeout(leaveTimeoutRef.current);
-      leaveTimeoutRef.current = null;
-    }
     setIsHovered(false);
   };
 
-  // Cleanup timeouts on unmount
-  React.useEffect(() => {
-    return () => {
-      if (hoverTimeoutRef.current) {
-        clearTimeout(hoverTimeoutRef.current);
-      }
-      if (leaveTimeoutRef.current) {
-        clearTimeout(leaveTimeoutRef.current);
-      }
-    };
-  }, []);
+  const handleDialogMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleDialogMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleDialogClose = () => {
+    setIsHovered(false);
+  };
 
   return (
     <div className="flex justify-center">
