@@ -6,9 +6,17 @@ interface BlogDialogProps {
   blog: BlogPost;
   isOpen: boolean;
   onClose: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }
 
-const BlogDialog: React.FC<BlogDialogProps> = ({ blog, isOpen, onClose }) => {
+const BlogDialog: React.FC<BlogDialogProps> = ({ 
+  blog, 
+  isOpen, 
+  onClose, 
+  onMouseEnter, 
+  onMouseLeave 
+}) => {
   const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,13 +51,8 @@ const BlogDialog: React.FC<BlogDialogProps> = ({ blog, isOpen, onClose }) => {
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
       <div
         ref={dialogRef}
-        onMouseEnter={() => clearTimeout((dialogRef.current as any)?.hoverTimeout)}
-        onMouseLeave={() => {
-          const timeout = setTimeout(() => {
-            onClose();
-          }, 200);
-          (dialogRef.current as any).hoverTimeout = timeout;
-        }}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         className="bg-white rounded-2xl shadow-2xl overflow-hidden w-full max-w-4xl max-h-[90vh] animate-scaleIn border border-[#97CADB]/20"
       >
         {/* Header with image */}
