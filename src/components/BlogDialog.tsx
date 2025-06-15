@@ -104,7 +104,7 @@ const BlogDialog: React.FC<BlogDialogProps> = ({
 
           {/* Content */}
           <div
-            className="prose prose-lg max-w-none text-gray-700 leading-relaxed"
+            className="prose prose-lg max-w-none text-gray-700 leading-relaxed text-justify"
             style={{
               '--tw-prose-headings': '#001B48',
               '--tw-prose-links': '#018ABE',
